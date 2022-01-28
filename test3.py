@@ -8,7 +8,6 @@ from time import sleep
 from discord_components import *
 from discord.ext import commands
 from discord_slash import SlashContext, SlashCommand
-from tokens import g, token
 from tkinter import *
 import tkinter as tk
 import shutil
